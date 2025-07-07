@@ -36,7 +36,7 @@ jobs:
 
       - name: Create Linux/Windows GoReleaser config
         run: |
-          cat > .goreleaser-linux-windows.yml << 'EOF'
+          cat > /tmp/.goreleaser-linux-windows.yml << 'EOF'
           project_name: whatsapp
           
           builds:
@@ -129,7 +129,7 @@ jobs:
       - name: Run GoReleaser for Linux/Windows
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: goreleaser release --config .goreleaser-linux-windows.yml --clean --timeout 60m
+        run: goreleaser release --config /tmp/.goreleaser-linux-windows.yml --clean --timeout 60m --skip-validate
 
   build-macos:
     if: startsWith(github.ref, 'refs/tags/v')
@@ -152,7 +152,7 @@ jobs:
 
       - name: Create macOS GoReleaser config
         run: |
-          cat > .goreleaser-macos.yml << 'EOF'
+          cat > /tmp/.goreleaser-macos.yml << 'EOF'
           project_name: whatsapp
           
           builds:
@@ -201,4 +201,4 @@ jobs:
       - name: Run GoReleaser for macOS
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: goreleaser release --config .goreleaser-macos.yml --timeout 60m
+        run: goreleaser release --config /tmp/.goreleaser-macos.yml --timeout 60m --skip-validate
