@@ -26,7 +26,10 @@ jobs:
           sudo apt-get install -y \
             gcc-aarch64-linux-gnu \
             gcc-mingw-w64 \
-            libc6-dev-i386-cross
+            libc6-dev-i386-cross \
+            libc6-dev-i386 \
+            lib32gcc-s1 \
+            gcc-multilib
 
       - name: Install GoReleaser
         uses: goreleaser/goreleaser-action@v5
@@ -72,6 +75,10 @@ jobs:
               env:
                 - CGO_ENABLED=1
                 - CC=gcc
+                - GOOS=linux
+                - GOARCH=386
+                - CGO_CFLAGS=-m32
+                - CGO_LDFLAGS=-m32
               goos:
                 - linux
               goarch:
