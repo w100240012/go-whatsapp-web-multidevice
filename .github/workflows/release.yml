@@ -27,7 +27,8 @@ jobs:
             gcc-aarch64-linux-gnu \
             gcc-mingw-w64 \
             libc6-dev-i386-cross \
-            gcc-i686-linux-gnu
+            gcc-i686-linux-gnu \
+            gcc-mingw-w64-aarch64
 
       - name: Install GoReleaser
         uses: goreleaser/goreleaser-action@v5
@@ -105,6 +106,19 @@ jobs:
                 - "386"
               ldflags: -s -w
               binary: "{{ .Os }}-{{ .Arch }}"
+              
+            - id: windows-arm64
+              dir: ./src
+              main: .
+              env:
+                - CGO_ENABLED=1
+                - CC=aarch64-w64-mingw32-gcc
+              goos:
+                - windows
+              goarch:
+                - arm64
+              ldflags: -s -w
+              binary: "{{ .Os }}-{{ .Arch }}"
           
           archives:
             - id: binaries
@@ -114,6 +128,7 @@ jobs:
                 - linux-386
                 - windows-amd64
                 - windows-386
+                - windows-arm64
               format: zip
               name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
           
