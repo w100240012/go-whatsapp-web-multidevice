@@ -30,5 +30,5 @@ checksum:
 release:
   draft: false
   github:
-    owner: "aldinokemal"
+    owner: "w100240012"
     name: "go-whatsapp-web-multidevice"
